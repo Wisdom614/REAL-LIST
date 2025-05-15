@@ -13,6 +13,24 @@
     <button id="addButton">Add</button>
     <ul id="itemList"></ul>
   </div>
+
+  <script>
+    const addButton = document.getElementById('addButton');
+    const itemInput = document.getElementById('itemInput');
+    const itemList = document.getElementById('itemList');
+
+    function addItem() {
+      const itemText = itemInput.value.trim();
+      if (itemText) {
+        const listItem = document.createElement('li');
+        listItem.textContent = itemText;
+        itemList.appendChild(listItem);
+        itemInput.value = '';
+      }
+    }
+    addButton.addEventListener('click', addItem);
+
+  </script>
   
 </body>
 </html>
