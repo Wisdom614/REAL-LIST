@@ -26,3 +26,11 @@ body{
   width: 70%;
   padding: 10px 20px;
 }
+}
+li{
+    list-style: none;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
