@@ -171,3 +171,18 @@ function showStatus(message, type) {
       }, 500);
   }, 5000);
 }
+
+//name typing effect
+const nameElement = document.getElementById('name');
+const nameText = 'Besong Wisdom'; 
+let index = 0;
+
+function typeName() {
+  if (index < nameText.length) {
+      nameElement.textContent += nameText.charAt(index);
+      index++;
+      setTimeout(typeName, 200); // Adjust typing speed here
+  }
+}
+
+typeName();
