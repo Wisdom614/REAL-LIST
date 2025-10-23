@@ -1,5 +1,5 @@
 // OpenAI Configuration - REPLACE THIS WITH YOUR ACTUAL API KEY
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
 // Enhanced Chat functionality with mobile fixes
 function initChat() {
