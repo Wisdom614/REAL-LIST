@@ -1,7 +1,7 @@
 // OpenAI Configuration - REPLACE THIS WITH YOUR ACTUAL API KEY
-const OPENAI_API_KEY = "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"; 
+const OPENAI_API_KEY = "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";
 
-// Enhanced Chat functionality
+// Enhanced Chat functionality with mobile fixes
 function initChat() {
     const chatWidget = document.getElementById('chat-widget');
     const chatToggle = document.getElementById('chat-toggle');
@@ -16,20 +16,33 @@ function initChat() {
         return;
     }
 
-    console.log('Initializing enhanced chat...');
+    console.log('Initializing enhanced chat with mobile support...');
 
     // Add pulse animation to toggle button
     chatToggle.classList.add('pulse');
 
     // Chat toggle functionality
     chatToggle.addEventListener('click', function(e) {
+        e.preventDefault();
         e.stopPropagation();
         console.log('Chat toggle clicked');
+        
+        const isOpening = !chatWidget.classList.contains('active');
         chatWidget.classList.toggle('active');
+        
         if (chatWidget.classList.contains('active')) {
+            // Opening chat
             userInput.focus();
             chatToggle.classList.remove('pulse');
+            document.body.classList.add('chat-open');
+            
+            // Add small delay for iOS to handle focus properly
+            setTimeout(() => {
+                userInput.focus();
+            }, 100);
         } else {
+            // Closing chat
+            document.body.classList.remove('chat-open');
             // Restart pulse animation after a delay when closing
             setTimeout(() => {
                 if (!chatWidget.classList.contains('active')) {
@@ -40,8 +53,11 @@ function initChat() {
     });
     
     closeChat.addEventListener('click', function(e) {
+        e.preventDefault();
         e.stopPropagation();
         chatWidget.classList.remove('active');
+        document.body.classList.remove('chat-open');
+        
         // Restart pulse animation after a delay
         setTimeout(() => {
             if (!chatWidget.classList.contains('active')) {
@@ -51,16 +67,32 @@ function initChat() {
     });
 
     // Message sending
-    sendBtn.addEventListener('click', sendMessage);
+    sendBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        sendMessage();
+    });
+    
     userInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') sendMessage();
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
     });
 
     // Input validation
     userInput.addEventListener('input', function() {
-        this.value = this.value.slice(0, 500); // Enforce max length
+        this.value = this.value.slice(0, 500);
         sendBtn.disabled = !this.value.trim();
     });
+
+    // Touch events for better mobile handling
+    chatWidget.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+    }, { passive: true });
+
+    chatToggle.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+    }, { passive: true });
 
     // Close chat when clicking outside
     document.addEventListener('click', function(e) {
@@ -68,7 +100,8 @@ function initChat() {
             !chatWidget.contains(e.target) && 
             !chatToggle.contains(e.target)) {
             chatWidget.classList.remove('active');
-            // Restart pulse animation after a delay
+            document.body.classList.remove('chat-open');
+            
             setTimeout(() => {
                 if (!chatWidget.classList.contains('active')) {
                     chatToggle.classList.add('pulse');
@@ -77,16 +110,33 @@ function initChat() {
         }
     });
 
-    // Prevent clicks inside chat from closing it
-    chatWidget.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-
     // Handle escape key to close chat
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && chatWidget.classList.contains('active')) {
             chatWidget.classList.remove('active');
+            document.body.classList.remove('chat-open');
         }
+    });
+
+    // Prevent zoom on input focus for mobile
+    userInput.addEventListener('focus', function() {
+        setTimeout(() => {
+            this.setAttribute('readonly', 'readonly');
+            setTimeout(() => {
+                this.removeAttribute('readonly');
+            }, 100);
+        }, 10);
+    });
+
+    // Handle mobile virtual keyboard
+    let initialViewport = document.querySelector('meta[name="viewport"]').content;
+    
+    userInput.addEventListener('focus', function() {
+        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+    });
+    
+    userInput.addEventListener('blur', function() {
+        document.querySelector('meta[name="viewport"]').setAttribute('content', initialViewport);
     });
 }
 
@@ -96,11 +146,18 @@ function addMessage(msg, sender) {
     msgDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
     
     const msgText = document.createElement('p');
-    msgText.innerText = msg;
+    msgText.textContent = msg;
     msgDiv.appendChild(msgText);
     
     chatBox.appendChild(msgDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    // Scroll to bottom with smooth behavior
+    setTimeout(() => {
+        chatBox.scrollTo({
+            top: chatBox.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 100);
 }
 
 function showTypingIndicator() {
@@ -119,7 +176,14 @@ function showTypingIndicator() {
     
     typingDiv.appendChild(typingContent);
     chatBox.appendChild(typingDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    // Scroll to show typing indicator
+    setTimeout(() => {
+        chatBox.scrollTo({
+            top: chatBox.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 100);
     
     return typingDiv;
 }
@@ -142,6 +206,9 @@ async function sendMessage() {
     addMessage(text, 'user');
     userInput.value = '';
     sendBtn.disabled = true;
+
+    // Hide mobile keyboard
+    userInput.blur();
 
     // Show typing indicator
     const typingIndicator = showTypingIndicator();
@@ -230,7 +297,10 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         addMessage(errorMessage, 'bot');
     } finally {
         sendBtn.disabled = false;
-        userInput.focus();
+        // Refocus input for next message
+        setTimeout(() => {
+            userInput.focus();
+        }, 300);
     }
 }
 
@@ -364,31 +434,22 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
     
     // Initialize chat with a small delay to ensure everything is loaded
-    setTimeout(initChat, 1500);
+    setTimeout(initChat, 1000);
 });
 
-// Additional utility functions
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Handle window resize with debounce
-window.addEventListener('resize', debounce(function() {
-    // Adjust chat widget position if needed on resize
-    const chatWidget = document.getElementById('chat-widget');
-    if (chatWidget && chatWidget.classList.contains('active')) {
-        // Force reflow to ensure proper positioning
-        chatWidget.style.display = 'none';
-        setTimeout(() => {
-            chatWidget.style.display = 'flex';
-        }, 10);
-    }
-}, 250));
+// Handle window resize
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        // Adjust chat widget if needed
+        const chatWidget = document.getElementById('chat-widget');
+        if (chatWidget && chatWidget.classList.contains('active')) {
+            // Force reflow for mobile orientation changes
+            chatWidget.style.display = 'none';
+            setTimeout(() => {
+                chatWidget.style.display = 'flex';
+            }, 10);
+        }
+    }, 250);
+});
