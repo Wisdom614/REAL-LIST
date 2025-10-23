@@ -1,7 +1,7 @@
 // OpenAI Configuration - REPLACE THIS WITH YOUR ACTUAL API KEY
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
-// Enhanced Chat functionality with full-screen support
+// Enhanced Chat functionality with proper mobile keyboard handling
 function initChat() {
     const chatWidget = document.getElementById('chat-widget');
     const chatToggle = document.getElementById('chat-toggle');
@@ -18,7 +18,7 @@ function initChat() {
         return;
     }
 
-    console.log('Initializing full-screen chat...');
+    console.log('Initializing full-screen chat with mobile keyboard support...');
 
     // Add pulse animation to toggle button
     chatToggle.classList.add('pulse');
@@ -68,7 +68,11 @@ function initChat() {
         btn.addEventListener('click', function() {
             const question = this.getAttribute('data-question');
             userInput.value = question;
-            sendMessage();
+            // Focus and ensure keyboard opens
+            setTimeout(() => {
+                userInput.focus();
+                userInput.setSelectionRange(userInput.value.length, userInput.value.length);
+            }, 100);
         });
     });
 
@@ -77,6 +81,79 @@ function initChat() {
         this.value = this.value.slice(0, 500);
         sendBtn.disabled = !this.value.trim();
     });
+
+    // Handle mobile keyboard events
+    let isKeyboardOpen = false;
+    let originalChatHeight = '';
+
+    userInput.addEventListener('focus', function() {
+        isKeyboardOpen = true;
+        console.log('Keyboard focused');
+        
+        // Store original height
+        originalChatHeight = chatWidget.style.height;
+        
+        // Adjust chat for mobile keyboard
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                chatWidget.style.height = '100vh';
+                chatBox.style.maxHeight = 'calc(100vh - 200px)';
+                scrollToBottom();
+            }, 300);
+        }
+    });
+
+    userInput.addEventListener('blur', function() {
+        isKeyboardOpen = false;
+        console.log('Keyboard blurred');
+        
+        // Reset chat height when keyboard closes
+        setTimeout(() => {
+            if (!originalChatHeight) {
+                chatWidget.style.height = '';
+                chatBox.style.maxHeight = '';
+            }
+        }, 200);
+    });
+
+    // Handle window resize (for keyboard show/hide on iOS)
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            if (window.innerHeight < window.outerHeight * 0.8) {
+                // Keyboard is likely open
+                isKeyboardOpen = true;
+                adjustForKeyboard();
+            } else {
+                // Keyboard is likely closed
+                isKeyboardOpen = false;
+                resetChatHeight();
+            }
+        }, 100);
+    });
+
+    function adjustForKeyboard() {
+        if (window.innerWidth <= 768 && chatWidget.classList.contains('active')) {
+            chatBox.style.maxHeight = 'calc(100vh - 250px)';
+            scrollToBottom();
+        }
+    }
+
+    function resetChatHeight() {
+        if (window.innerWidth <= 768 && chatWidget.classList.contains('active')) {
+            chatBox.style.maxHeight = '';
+        }
+    }
+
+    function scrollToBottom() {
+        setTimeout(() => {
+            chatBox.scrollTo({
+                top: chatBox.scrollHeight,
+                behavior: 'smooth'
+            });
+        }, 100);
+    }
 
     // Close chat with escape key
     document.addEventListener('keydown', function(e) {
@@ -89,15 +166,32 @@ function initChat() {
     function updateBodyScroll() {
         if (chatWidget.classList.contains('active')) {
             document.body.classList.add('chat-open');
+            // Lock body scroll but allow chat scroll
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
         } else {
             document.body.classList.remove('chat-open');
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
         }
     }
 
     function openChat() {
         chatWidget.classList.add('active');
         updateBodyScroll();
-        userInput.focus();
+        
+        // Use a more reliable focus method for mobile
+        setTimeout(() => {
+            userInput.focus();
+            // Force keyboard to open on mobile
+            if (window.innerWidth <= 768) {
+                userInput.setAttribute('readonly', 'readonly'); // Force keyboard to show
+                setTimeout(() => {
+                    userInput.removeAttribute('readonly');
+                }, 100);
+            }
+        }, 300);
+        
         chatToggle.classList.remove('pulse');
         
         // Hide notification dot when chat is opened
@@ -105,14 +199,12 @@ function initChat() {
         if (notification) {
             notification.style.display = 'none';
         }
-        
-        // Add small delay for iOS to handle focus properly
-        setTimeout(() => {
-            userInput.focus();
-        }, 100);
     }
 
     function closeChatWidget() {
+        // Blur input first to hide keyboard
+        userInput.blur();
+        
         chatWidget.classList.remove('active');
         updateBodyScroll();
         
@@ -149,12 +241,7 @@ function addMessage(msg, sender) {
     chatBox.appendChild(messageDiv);
     
     // Scroll to bottom with smooth behavior
-    setTimeout(() => {
-        chatBox.scrollTo({
-            top: chatBox.scrollHeight,
-            behavior: 'smooth'
-        });
-    }, 100);
+    scrollToBottom();
 }
 
 function showTypingIndicator() {
@@ -178,12 +265,7 @@ function showTypingIndicator() {
     chatBox.appendChild(typingDiv);
     
     // Scroll to show typing indicator
-    setTimeout(() => {
-        chatBox.scrollTo({
-            top: chatBox.scrollHeight,
-            behavior: 'smooth'
-        });
-    }, 100);
+    scrollToBottom();
     
     return typingDiv;
 }
@@ -193,6 +275,16 @@ function hideTypingIndicator() {
     typingIndicators.forEach(indicator => {
         indicator.remove();
     });
+}
+
+function scrollToBottom() {
+    const chatBox = document.getElementById('chat-box');
+    setTimeout(() => {
+        chatBox.scrollTo({
+            top: chatBox.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 100);
 }
 
 async function sendMessage() {
@@ -207,8 +299,10 @@ async function sendMessage() {
     userInput.value = '';
     sendBtn.disabled = true;
 
-    // Hide mobile keyboard
-    userInput.blur();
+    // Don't blur on mobile - keep keyboard open for quick responses
+    if (window.innerWidth > 768) {
+        userInput.blur();
+    }
 
     // Show typing indicator
     const typingIndicator = showTypingIndicator();
@@ -297,9 +391,12 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         addMessage(errorMessage, 'bot');
     } finally {
         sendBtn.disabled = false;
-        // Refocus input for next message
+        
+        // Refocus input for next message - important for mobile
         setTimeout(() => {
             userInput.focus();
+            // Ensure caret is at the end
+            userInput.setSelectionRange(userInput.value.length, userInput.value.length);
         }, 300);
     }
 }
@@ -437,11 +534,11 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(initChat, 1000);
 });
 
-// Handle window resize
-let resizeTimeout;
+// Handle window resize for chat
+let chatResizeTimeout;
 window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
+    clearTimeout(chatResizeTimeout);
+    chatResizeTimeout = setTimeout(function() {
         // Adjust chat widget if needed
         const chatWidget = document.getElementById('chat-widget');
         if (chatWidget && chatWidget.classList.contains('active')) {
