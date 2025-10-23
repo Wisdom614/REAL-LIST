@@ -1,14 +1,16 @@
 // OpenAI Configuration - REPLACE THIS WITH YOUR ACTUAL API KEY
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
-// Enhanced Chat functionality with mobile fixes
+// Enhanced Chat functionality with full-screen support
 function initChat() {
     const chatWidget = document.getElementById('chat-widget');
     const chatToggle = document.getElementById('chat-toggle');
     const closeChat = document.getElementById('close-chat');
+    const backToPortfolio = document.getElementById('back-to-portfolio');
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
+    const suggestionBtns = document.querySelectorAll('.suggestion-btn');
 
     // Check if chat elements exist
     if (!chatWidget || !chatToggle) {
@@ -16,7 +18,7 @@ function initChat() {
         return;
     }
 
-    console.log('Initializing enhanced chat with mobile support...');
+    console.log('Initializing full-screen chat...');
 
     // Add pulse animation to toggle button
     chatToggle.classList.add('pulse');
@@ -25,45 +27,27 @@ function initChat() {
     chatToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Chat toggle clicked');
-        
-        const isOpening = !chatWidget.classList.contains('active');
-        chatWidget.classList.toggle('active');
-        
-        if (chatWidget.classList.contains('active')) {
-            // Opening chat
-            userInput.focus();
-            chatToggle.classList.remove('pulse');
-            document.body.classList.add('chat-open');
-            
-            // Add small delay for iOS to handle focus properly
-            setTimeout(() => {
-                userInput.focus();
-            }, 100);
-        } else {
-            // Closing chat
-            document.body.classList.remove('chat-open');
-            // Restart pulse animation after a delay when closing
-            setTimeout(() => {
-                if (!chatWidget.classList.contains('active')) {
-                    chatToggle.classList.add('pulse');
-                }
-            }, 3000);
-        }
+        openChat();
     });
     
+    // Close chat functionality
     closeChat.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        chatWidget.classList.remove('active');
-        document.body.classList.remove('chat-open');
+        closeChatWidget();
+    });
+    
+    // Back to portfolio functionality
+    backToPortfolio.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeChatWidget();
         
-        // Restart pulse animation after a delay
-        setTimeout(() => {
-            if (!chatWidget.classList.contains('active')) {
-                chatToggle.classList.add('pulse');
-            }
-        }, 3000);
+        // Smooth scroll to top of portfolio
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 
     // Message sending
@@ -79,77 +63,90 @@ function initChat() {
         }
     });
 
+    // Suggestion buttons
+    suggestionBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const question = this.getAttribute('data-question');
+            userInput.value = question;
+            sendMessage();
+        });
+    });
+
     // Input validation
     userInput.addEventListener('input', function() {
         this.value = this.value.slice(0, 500);
         sendBtn.disabled = !this.value.trim();
     });
 
-    // Touch events for better mobile handling
-    chatWidget.addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-    }, { passive: true });
-
-    chatToggle.addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-    }, { passive: true });
-
-    // Close chat when clicking outside
-    document.addEventListener('click', function(e) {
-        if (chatWidget.classList.contains('active') && 
-            !chatWidget.contains(e.target) && 
-            !chatToggle.contains(e.target)) {
-            chatWidget.classList.remove('active');
-            document.body.classList.remove('chat-open');
-            
-            setTimeout(() => {
-                if (!chatWidget.classList.contains('active')) {
-                    chatToggle.classList.add('pulse');
-                }
-            }, 3000);
-        }
-    });
-
-    // Handle escape key to close chat
+    // Close chat with escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && chatWidget.classList.contains('active')) {
-            chatWidget.classList.remove('active');
-            document.body.classList.remove('chat-open');
+            closeChatWidget();
         }
     });
 
-    // Prevent zoom on input focus for mobile
-    userInput.addEventListener('focus', function() {
-        setTimeout(() => {
-            this.setAttribute('readonly', 'readonly');
-            setTimeout(() => {
-                this.removeAttribute('readonly');
-            }, 100);
-        }, 10);
-    });
+    // Prevent body scroll when chat is open
+    function updateBodyScroll() {
+        if (chatWidget.classList.contains('active')) {
+            document.body.classList.add('chat-open');
+        } else {
+            document.body.classList.remove('chat-open');
+        }
+    }
 
-    // Handle mobile virtual keyboard
-    let initialViewport = document.querySelector('meta[name="viewport"]').content;
-    
-    userInput.addEventListener('focus', function() {
-        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
-    });
-    
-    userInput.addEventListener('blur', function() {
-        document.querySelector('meta[name="viewport"]').setAttribute('content', initialViewport);
-    });
+    function openChat() {
+        chatWidget.classList.add('active');
+        updateBodyScroll();
+        userInput.focus();
+        chatToggle.classList.remove('pulse');
+        
+        // Hide notification dot when chat is opened
+        const notification = document.querySelector('.chat-notification');
+        if (notification) {
+            notification.style.display = 'none';
+        }
+        
+        // Add small delay for iOS to handle focus properly
+        setTimeout(() => {
+            userInput.focus();
+        }, 100);
+    }
+
+    function closeChatWidget() {
+        chatWidget.classList.remove('active');
+        updateBodyScroll();
+        
+        // Restart pulse animation after a delay
+        setTimeout(() => {
+            if (!chatWidget.classList.contains('active')) {
+                chatToggle.classList.add('pulse');
+            }
+        }, 3000);
+    }
+
+    // Make functions globally available
+    window.openChat = openChat;
+    window.closeChatWidget = closeChatWidget;
 }
 
 function addMessage(msg, sender) {
     const chatBox = document.getElementById('chat-box');
-    const msgDiv = document.createElement('div');
-    msgDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
     
-    const msgText = document.createElement('p');
-    msgText.textContent = msg;
-    msgDiv.appendChild(msgText);
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
-    chatBox.appendChild(msgDiv);
+    messageDiv.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas ${sender === 'user' ? 'fa-user' : 'fa-robot'}"></i>
+        </div>
+        <div class="message-content">
+            <p>${msg}</p>
+            <span class="message-time">${time}</span>
+        </div>
+    `;
+    
+    chatBox.appendChild(messageDiv);
     
     // Scroll to bottom with smooth behavior
     setTimeout(() => {
@@ -163,18 +160,21 @@ function addMessage(msg, sender) {
 function showTypingIndicator() {
     const chatBox = document.getElementById('chat-box');
     const typingDiv = document.createElement('div');
-    typingDiv.id = 'typing-indicator';
     typingDiv.className = 'typing-indicator active';
     
-    const typingContent = document.createElement('div');
-    typingContent.className = 'typing-dots';
+    typingDiv.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="typing-content">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    `;
     
-    for (let i = 0; i < 3; i++) {
-        const dot = document.createElement('span');
-        typingContent.appendChild(dot);
-    }
-    
-    typingDiv.appendChild(typingContent);
     chatBox.appendChild(typingDiv);
     
     // Scroll to show typing indicator
@@ -189,10 +189,10 @@ function showTypingIndicator() {
 }
 
 function hideTypingIndicator() {
-    const typingIndicator = document.getElementById('typing-indicator');
-    if (typingIndicator) {
-        typingIndicator.remove();
-    }
+    const typingIndicators = document.querySelectorAll('.typing-indicator');
+    typingIndicators.forEach(indicator => {
+        indicator.remove();
+    });
 }
 
 async function sendMessage() {
