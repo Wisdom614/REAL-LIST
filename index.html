@@ -1,9 +1,8 @@
-<!--h1>https://besongwisdom.netlify.app/</h1-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Besong Wisdom</title>
     <link
       rel="stylesheet"
@@ -159,7 +158,7 @@
         <div class="projects-grid">
           <div class="project-card">
             <div class="project-image">
-              <!--img src="https://via.placeholder.com/400x250" alt="Project 1"-->
+              <img src="https://via.placeholder.com/400x250" alt="Project 1" />
             </div>
             <div class="project-info">
               <h3>E-commerce Website</h3>
@@ -179,7 +178,7 @@
           </div>
           <div class="project-card">
             <div class="project-image">
-              <!--img src="https://via.placeholder.com/400x250" alt="Project 2"-->
+              <img src="https://via.placeholder.com/400x250" alt="Project 2" />
             </div>
             <div class="project-info">
               <h3>Portfolio Template</h3>
@@ -196,7 +195,7 @@
           </div>
           <div class="project-card">
             <div class="project-image">
-              <!--img src="https://via.placeholder.com/400x250" alt="Project 3"-->
+              <img src="https://via.placeholder.com/400x250" alt="Project 3" />
             </div>
             <div class="project-info">
               <h3>Shopping list Generator</h3>
@@ -376,36 +375,62 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
-
     <!-- AI Chat Widget -->
     <div id="chat-widget" class="chat-widget">
       <div class="chat-header">
-        <h3>Chat with Wisdom AI</h3>
+        <button id="back-to-portfolio" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Portfolio</span>
+        </button>
+        <div class="chat-title">
+          <h3>Chat with Wisdom AI</h3>
+          <span class="online-indicator">• Online</span>
+        </div>
         <button id="close-chat" class="close-btn">&times;</button>
       </div>
       <div id="chat-box" class="chat-messages">
         <div class="message bot-message">
-          <p>
-            Hi there! I'm Wisdom AI. Ask me anything about my portfolio or
-            projects!
-          </p>
+          <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="message-content">
+            <p>Hi there! I'm Wisdom AI. Ask me anything about my portfolio, projects, or skills!</p>
+            <span class="message-time">Just now</span>
+          </div>
         </div>
       </div>
-      <div class="chat-input">
-        <input
-          type="text"
-          id="user-input"
-          placeholder="Type your message..."
-          maxlength="500"
-        />
-        <button id="send-btn">Send</button>
+      <div class="chat-input-container">
+        <div class="chat-input">
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Type your message..."
+            maxlength="500"
+          />
+          <button id="send-btn" class="send-btn">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+        <div class="chat-suggestions">
+          <button class="suggestion-btn" data-question="Tell me about your skills">
+            Skills
+          </button>
+          <button class="suggestion-btn" data-question="Show me your projects">
+            Projects
+          </button>
+          <button class="suggestion-btn" data-question="How can I contact you?">
+            Contact
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Floating Chat Button -->
     <button id="chat-toggle" class="chat-toggle">
       <i class="fas fa-robot"></i>
+      <span class="chat-notification"></span>
     </button>
+
+    <script src="script.js"></script>
   </body>
 </html>
