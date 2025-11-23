@@ -1,6 +1,6 @@
 // Bytze Configuration
 const BYTZE_API_KEY = "38096021ad42c6262999bf38eafe7803";
-const BYTZE_API_URL = 'https://api.bytez.com/v1/papers'; // Updated to correct endpoint
+const BYTZE_API_URL = "https://api.bytez.com/v1/chat/completions"; // Updated to correct endpoint
 
 // Enhanced Chat functionality with proper mobile keyboard handling
 function initChat() {
@@ -310,7 +310,7 @@ async function sendMessage() {
 
     try {
         // Check if API key is set
-        if (!BYTZE_API_KEY || BYTZE_API_KEY === "your-bytze-api-key-here") {
+        if (!BYTZE_API_KEY || BYTZE_API_KEY === "38096021ad42c6262999bf38eafe7803") {
             throw new Error("API key not configured");
         }
 
