@@ -1,6 +1,6 @@
 // Bytze Configuration
 const BYTZE_API_KEY = "38096021ad42c6262999bf38eafe7803";
-const BYTZE_API_URL = "https://api.bytze.com/v1/chat/completions"; // Replace with actual Bytze API URL if different
+const BYTZE_API_URL = "https://api.bytez.com/v1/chat/completions"; // Updated to correct endpoint
 
 // Enhanced Chat functionality with proper mobile keyboard handling
 function initChat() {
@@ -314,15 +314,15 @@ async function sendMessage() {
             throw new Error("API key not configured");
         }
 
+        // Bytze API request
         const response = await fetch(BYTZE_API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${BYTZE_API_KEY}`,
-                "X-API-Key": BYTZE_API_KEY // Some APIs use different header names
+                "Authorization": `Bearer ${BYTZE_API_KEY}`
             },
             body: JSON.stringify({
-                model: "gpt-4", // Adjust model name based on Bytze's available models
+                model: "gpt-4", // Adjust based on available Bytze models
                 messages: [
                     {
                         role: "system",
@@ -362,15 +362,23 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`API error: ${response.status} - ${errorText}`);
+            const errorData = await response.json().catch(() => null);
+            throw new Error(`API error: ${response.status} - ${errorData?.message || response.statusText}`);
         }
 
         const data = await response.json();
-        const botReply = data?.choices?.[0]?.message?.content || 
-                        data?.response || 
-                        data?.message || 
-                        "Sorry, I couldn't process that.";
+        
+        // Handle different possible response formats from Bytze API
+        let botReply;
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            botReply = data.choices[0].message.content;
+        } else if (data.message) {
+            botReply = data.message;
+        } else if (data.response) {
+            botReply = data.response;
+        } else {
+            botReply = "Sorry, I couldn't process that response.";
+        }
 
         // Remove typing indicator and add bot message
         hideTypingIndicator();
@@ -391,7 +399,7 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         } else if (error.message.includes("network") || error.message.includes("fetch")) {
             errorMessage += "Network connection issue. Please check your internet and try again.";
         } else if (error.message.includes("401") || error.message.includes("403")) {
-            errorMessage += "Authentication error. Please contact the administrator.";
+            errorMessage += "Authentication error. Please check the API configuration.";
         } else {
             errorMessage += "Please try again later or email me at wisdombesong123@gmail.com";
         }
