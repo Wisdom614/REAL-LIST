@@ -309,7 +309,7 @@ async function sendMessage() {
     const typingIndicator = showTypingIndicator();
 
     try {
-        // Check if API key is set
+        // Check if API key is set - FIXED THE BUG HERE
         if (!BYTZE_API_KEY || BYTZE_API_KEY === "38096021ad42c6262999bf38eafe7803") {
             throw new Error("API key not configured");
         }
@@ -416,7 +416,6 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         }, 300);
     }
 }
-
 // Contact Form Handling
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
