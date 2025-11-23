@@ -1,6 +1,5 @@
-// Bytze Configuration
-const BYTZE_API_KEY = "38096021ad42c6262999bf38eafe7803";
-const BYTZE_API_URL = "https://api.bytez.com/v1/chat/completions"; // Updated to correct endpoint
+// OpenAI Configuration - REPLACE THIS WITH YOUR ACTUAL API KEY
+const OPENAI_API_KEY = "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";
 
 // Enhanced Chat functionality with proper mobile keyboard handling
 function initChat() {
@@ -309,20 +308,19 @@ async function sendMessage() {
     const typingIndicator = showTypingIndicator();
 
     try {
-        // Check if API key is set - FIXED THE BUG HERE
-        if (!BYTZE_API_KEY || BYTZE_API_KEY === "38096021ad42c6262999bf38eafe7803") {
+        // Check if API key is set
+        if (!OPENAI_API_KEY || OPENAI_API_KEY === "your-actual-openai-api-key-here") {
             throw new Error("API key not configured");
         }
 
-        // Bytze API request
-        const response = await fetch(BYTZE_API_URL, {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${BYTZE_API_KEY}`
+                "Authorization": `Bearer ${OPENAI_API_KEY}`
             },
             body: JSON.stringify({
-                model: "gpt-4", // Adjust based on available Bytze models
+                model: "gpt-4o-mini",
                 messages: [
                     {
                         role: "system",
@@ -362,23 +360,11 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            throw new Error(`API error: ${response.status} - ${errorData?.message || response.statusText}`);
+            throw new Error(`API error: ${response.status}`);
         }
 
         const data = await response.json();
-        
-        // Handle different possible response formats from Bytze API
-        let botReply;
-        if (data.choices && data.choices[0] && data.choices[0].message) {
-            botReply = data.choices[0].message.content;
-        } else if (data.message) {
-            botReply = data.message;
-        } else if (data.response) {
-            botReply = data.response;
-        } else {
-            botReply = "Sorry, I couldn't process that response.";
-        }
+        const botReply = data?.choices?.[0]?.message?.content || "Sorry, I couldn't process that.";
 
         // Remove typing indicator and add bot message
         hideTypingIndicator();
@@ -393,13 +379,11 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         let errorMessage = "I'm having trouble connecting right now. ";
         
         if (error.message.includes("API key not configured")) {
-            errorMessage += "Please set up the Bytze API key. Meanwhile, you can email me directly at wisdombesong123@gmail.com";
+            errorMessage += "Please set up the OpenAI API key. Meanwhile, you can email me directly at wisdombesong123@gmail.com";
         } else if (error.message.includes("quota") || error.message.includes("billing")) {
             errorMessage += "API quota exceeded. Please email me at wisdombesong123@gmail.com";
         } else if (error.message.includes("network") || error.message.includes("fetch")) {
             errorMessage += "Network connection issue. Please check your internet and try again.";
-        } else if (error.message.includes("401") || error.message.includes("403")) {
-            errorMessage += "Authentication error. Please check the API configuration.";
         } else {
             errorMessage += "Please try again later or email me at wisdombesong123@gmail.com";
         }
@@ -416,6 +400,7 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         }, 300);
     }
 }
+
 // Contact Form Handling
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
