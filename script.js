@@ -1,6 +1,3 @@
-
-const OPENAI_API_KEY = "";
-
 // Enhanced Chat functionality with proper mobile keyboard handling
 function initChat() {
     const chatWidget = document.getElementById('chat-widget');
@@ -308,63 +305,60 @@ async function sendMessage() {
     const typingIndicator = showTypingIndicator();
 
     try {
-        // Check if API key is set
-        if (!OPENAI_API_KEY || OPENAI_API_KEY === "your-actual-openai-api-key-here") {
-            throw new Error("API key not configured");
-        }
-
-        const response = await fetch("https://bewise-ai-chatbot.onrender.com", {
+        // Send to your custom backend at bewise-ai-chatbot.onrender.com
+        const response = await fetch("https://bewise-ai-chatbot.onrender.com/chat", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${OPENAI_API_KEY}`
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "gpt-4o-mini",
-                messages: [
-                    {
-                        role: "system",
-                        content: `You are WisdomBot, a friendly AI assistant representing Besong Wisdom — a passionate web developer and designer from Cameroon.
-
-About Besong:
-- Full Name: Besong Wisdom
-- Location: Cameroon  
-- Email: wisdombesong123@gmail.com
-- Phone: +237 671657357
-- Role: Web Developer & Designer
-
-Technical Skills:
-- Frontend: HTML5, CSS3, JavaScript, React
-- Backend: Python, Django, Node.js
-- Databases: MongoDB, MySQL, Firebase
-- Tools: Git, Responsive Design
-
-Projects:
-1. E-commerce Website (React, Node.js, MongoDB) - https://wisdom-webstore.netlify.app
-2. Shopping List Generator (HTML, CSS, JavaScript) - https://shopping-gen.netlify.app/
-3. Portfolio Template (HTML, CSS, JavaScript)
-
-Social Links:
-- GitHub: https://github.com/Wisdom614
-- LinkedIn: https://www.linkedin.com/feed/
-- WhatsApp: https://wa.link/ld47dz
-- Instagram: https://www.instagram.com/bewise135
-
-Be engaging, concise, and helpful. Direct visitors to relevant portfolio sections. If you don't know something, suggest emailing directly. Keep responses professional but friendly. Keep responses under 150 words unless absolutely necessary.`
+                message: text,
+                // Add context about the portfolio for personalized responses
+                context: {
+                    portfolioOwner: "Besong Wisdom",
+                    ownerInfo: {
+                        name: "Besong Wisdom",
+                        email: "wisdombesong123@gmail.com",
+                        phone: "+237 671657357",
+                        location: "Cameroon",
+                        role: "Web Developer & Designer"
                     },
-                    { role: "user", content: text }
-                ],
-                max_tokens: 300,
-                temperature: 0.7
+                    portfolioLinks: {
+                        github: "https://github.com/Wisdom614",
+                        linkedin: "https://www.linkedin.com/feed/",
+                        whatsapp: "https://wa.link/ld47dz",
+                        instagram: "https://www.instagram.com/bewise135",
+                        ecommerce: "https://wisdom-webstore.netlify.app",
+                        shoppingList: "https://shopping-gen.netlify.app/"
+                    }
+                }
             })
         });
 
         if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
+            throw new Error(`Backend error: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
-        const botReply = data?.choices?.[0]?.message?.content || "Sorry, I couldn't process that.";
+        
+        // Handle different possible response formats
+        let botReply;
+        if (data.reply) {
+            botReply = data.reply;
+        } else if (data.message) {
+            botReply = data.message;
+        } else if (data.response) {
+            botReply = data.response;
+        } else if (data.choices && data.choices[0] && data.choices[0].message) {
+            // OpenAI-compatible format
+            botReply = data.choices[0].message.content;
+        } else if (data.content) {
+            botReply = data.content;
+        } else if (typeof data === 'string') {
+            botReply = data;
+        } else {
+            botReply = "Thanks for your message! I'll get back to you soon.";
+        }
 
         // Remove typing indicator and add bot message
         hideTypingIndicator();
@@ -376,26 +370,29 @@ Be engaging, concise, and helpful. Direct visitors to relevant portfolio section
         // Remove typing indicator
         hideTypingIndicator();
         
-        let errorMessage = "I'm having trouble connecting right now. ";
+        let errorMessage = "I'm having trouble connecting to my AI service. ";
         
-        if (error.message.includes("API key not configured")) {
-            errorMessage += "Please set up the OpenAI API key. Meanwhile, you can email me directly at wisdombesong123@gmail.com";
-        } else if (error.message.includes("quota") || error.message.includes("billing")) {
-            errorMessage += "API quota exceeded. Please email me at wisdombesong123@gmail.com";
-        } else if (error.message.includes("network") || error.message.includes("fetch")) {
-            errorMessage += "Network connection issue. Please check your internet and try again.";
-        } else {
-            errorMessage += "Please try again later or email me at wisdombesong123@gmail.com";
+        if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+            errorMessage += "Please check your internet connection and try again. ";
+        } else if (error.message.includes("500")) {
+            errorMessage += "My AI service is temporarily down. ";
+        } else if (error.message.includes("429")) {
+            errorMessage += "Too many requests. Please try again in a moment. ";
+        } else if (error.message.includes("404")) {
+            errorMessage += "The chat service endpoint was not found. ";
+        } else if (error.message.includes("401") || error.message.includes("403")) {
+            errorMessage += "Authentication error with the chat service. ";
         }
+        
+        errorMessage += "You can also contact me directly at wisdombesong123@gmail.com or call +237 671657357.";
         
         addMessage(errorMessage, 'bot');
     } finally {
         sendBtn.disabled = false;
         
-        // Refocus input for next message - important for mobile
+        // Refocus input for next message
         setTimeout(() => {
             userInput.focus();
-            // Ensure caret is at the end
             userInput.setSelectionRange(userInput.value.length, userInput.value.length);
         }, 300);
     }
@@ -437,11 +434,14 @@ function initContactForm() {
                 throw new Error('Form submission failed');
             }
         } catch (error) {
-            statusMessage.textContent = 'Sorry, there was an error sending your message. Please try again or email me directly.';
+            statusMessage.textContent = 'Sorry, there was an error sending your message. Please try again or email me directly at wisdombesong123@gmail.com';
             statusMessage.className = 'status-message error';
         } finally {
             submitBtn.classList.remove('sending');
             submitBtn.disabled = false;
+            
+            // Show status message
+            statusMessage.style.display = 'block';
             
             // Hide status message after 5 seconds
             setTimeout(() => {
