@@ -1,63 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <!-- Primary SEO Meta Tags -->
-  <title>Besong Wisdom | Full-Stack Developer & AI Engineer</title>
-  <meta name="description" content="Portfolio of Besong Wisdom — Full-Stack Developer and AI Engineer specializing in modern web development, intelligent systems, and software engineering. Explore projects, skills, and contact information.">
-  <meta name="keywords" content="Besong Wisdom, Full Stack Developer, AI Engineer, Web Developer, Software Engineer, Portfolio, JavaScript, Python, React, Django">
-  <meta name="author" content="Besong Wisdom">
-  <meta name="robots" content="index, follow" />
+    <!-- Primary SEO Meta Tags -->
+    <title>Besong Wisdom | Full-Stack Developer & AI Engineer</title>
+    <meta name="description" content="Portfolio of Besong Wisdom — Full-Stack Developer and AI Engineer specializing in modern web development, intelligent systems, and software engineering.">
+    <meta name="keywords" content="Besong Wisdom, Full Stack Developer, AI Engineer, Web Developer, Software Engineer, Portfolio, JavaScript, Python, React, Django">
+    <meta name="author" content="Besong Wisdom">
+    <meta name="robots" content="index, follow" />
 
-  <!-- Styles & Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="Me.jpg" type="image/x-icon" />
+    <!-- Styles & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="Me.jpg" type="image/x-icon" />
 
-  <!-- Open Graph (Facebook, LinkedIn, etc.) -->
-  <meta property="og:title" content="Besong Wisdom | Full-Stack Developer & AI Engineer" />
-  <meta property="og:description" content="Explore Besong Wisdom's portfolio featuring web development, AI projects, and full-stack engineering work." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://besongwisdom.online/" />
-  <meta property="og:image" content="https://besongwisdom.online/og-image.jpg" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Besong Wisdom | Full-Stack Developer & AI Engineer" />
-  <meta name="twitter:description" content="Explore Besong Wisdom's portfolio including projects in AI, full-stack development, and software engineering." />
-  <meta name="twitter:image" content="https://besongwisdom.onlineog-image.jpg" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Besong Wisdom | Full-Stack Developer & AI Engineer" />
+    <meta property="og:description" content="Explore Besong Wisdom's portfolio featuring web development, AI projects, and full-stack engineering work." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://besongwisdom.online/" />
+    <meta property="og:image" content="https://besongwisdom.online/og-image.jpg" />
 
-  <!-- Schema.org JSON-LD (Structured Data) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Besong Wisdom",
-    "url": "https://besongwisdom.netlify.app",
-    "description": "Full-Stack Developer and AI Engineer with experience in modern web technologies and intelligent applications.",
-    "sameAs": [
-      "https://github.com/Wisdom614"
-    ]
-  }
-  </script>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Besong Wisdom | Full-Stack Developer & AI Engineer" />
+    <meta name="twitter:description" content="Explore Besong Wisdom's portfolio including projects in AI, full-stack development, and software engineering." />
+    <meta name="twitter:image" content="https://besongwisdom.onlineog-image.jpg" />
 
-  <!-- Sitemap -->
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-</head>
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Besong Wisdom",
+      "url": "https://besongwisdom.netlify.app",
+      "description": "Full-Stack Developer and AI Engineer with expertise in modern web technologies and intelligent applications.",
+      "sameAs": [
+        "https://github.com/Wisdom614"
+      ]
+    }
+    </script>
+
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+  </head>
 
   <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="preloader-content">
+        <div class="loader"></div>
+        <p class="loading-text">Loading Portfolio...</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
     <header>
       <div class="container">
-        <div class="logo">BW</div>
+        <div class="logo">
+          <span class="logo-icon">BW</span>
+          <span class="logo-text">Besong<span class="gold">Wisdom</span></span>
+        </div>
         <nav>
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
           </ul>
           <div class="hamburger">
             <span></span>
@@ -68,308 +83,416 @@
       </div>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
+      <div class="hero-bg"></div>
       <div class="container">
         <div class="hero-content">
-          <h1>Hello, I'm <span id="name"></span></h1>
-          <p class="subtitle">Web Developer & Designer</p>
-          <p class="brief">
-            Creating beautiful, functional websites that deliver results.
-          </p>
-          <div class="cta-buttons">
-            <a href="#contact" class="btn primary">Hire Me</a>
-            <a href="#projects" class="btn secondary">My Work</a>
+          <div class="hero-text">
+            <h4 class="hero-subtitle">Hello, I'm</h4>
+            <h1 class="hero-title">
+              <span class="gold-gradient">Besong Wisdom</span>
+            </h1>
+            <h2 class="hero-role">
+              <span class="typing-text">Full-Stack Developer & AI Engineer</span>
+              <span class="cursor"></span>
+            </h2>
+            <p class="hero-description">
+              Crafting digital experiences with cutting-edge technology and innovative design. 
+              Specializing in modern web applications and intelligent systems.
+            </p>
+            <div class="cta-buttons">
+              <a href="#contact" class="btn primary">
+                <span>Hire Me</span>
+                <i class="fas fa-paper-plane"></i>
+              </a>
+              <a href="#projects" class="btn secondary">
+                <span>View Projects</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <div class="image-container">
+              <img src="Me.png" alt="Besong Wisdom" class="profile-image" />
+              <div class="image-border"></div>
+              <div class="image-glow"></div>
+            </div>
           </div>
         </div>
-        <div class="hero-image">
-          <img src="Me.png" alt="Profile" />
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-number" data-count="50">0</div>
+            <div class="stat-label">Projects Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-count="3">0</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-count="100">0</div>
+            <div class="stat-label">Happy Clients</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-count="24">0</div>
+            <div class="stat-label">Tech Stack</div>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- About Section -->
     <section id="about" class="about">
       <div class="container">
-        <h2 class="section-title">About Me</h2>
+        <h2 class="section-title">
+          <span class="title-number">01</span>
+          About Me
+        </h2>
         <div class="about-content">
-          <div class="about-image">
-            <img
-              src="mee.png"
-              alt="About picture"
-            />
+          <div class="about-image reveal-left">
+            <div class="image-wrapper">
+              <img src="mee.png" alt="Besong Wisdom" />
+              <div class="image-overlay"></div>
+            </div>
           </div>
-          <div class="about-text">
-            <h3>Who am I?</h3>
+          <div class="about-text reveal-right">
+            <h3>Innovating Digital Solutions</h3>
             <p>
-              I'm Besong Wisdom, a passionate web developer with expertise in
-              creating modern, responsive websites and web applications. I focus
-              on delivering high-quality work that meets client needs and
-              exceeds expectations.
+              I'm <span class="gold">Besong Wisdom</span>, a passionate Full-Stack Developer and AI Engineer 
+              dedicated to creating modern, responsive websites and intelligent applications. 
+              I focus on delivering high-quality work that meets client needs and exceeds expectations.
             </p>
-
             <div class="personal-info">
-              <div>
-                <p><strong>Name:</strong> Besong Wisdom</p>
-                <p><strong>Email:</strong> wisdombesong123@gmail.com</p>
+              <div class="info-column">
+                <div class="info-item">
+                  <i class="fas fa-user"></i>
+                  <div>
+                    <span class="info-label">Name</span>
+                    <span class="info-value">Besong Wisdom</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-envelope"></i>
+                  <div>
+                    <span class="info-label">Email</span>
+                    <span class="info-value">wisdombesong123@gmail.com</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p><strong>Phone:</strong> +237 671657357</p>
-                <p><strong>From:</strong> Cameroon</p>
+              <div class="info-column">
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <div>
+                    <span class="info-label">Phone</span>
+                    <span class="info-value">+237 671657357</span>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <span class="info-label">Location</span>
+                    <span class="info-value">Cameroon</span>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div class="social-links">
-              <a href="https://github.com/Wisdom614" target="_blank"
-                ><i class="fab fa-github"></i
-              ></a>
-              <a href="https://www.linkedin.com/feed/" target="_blank"
-                ><i class="fab fa-linkedin"></i
-              ></a>
-              <a href="https://wa.link/ld47dz" target="_blank"
-                ><i class="fab fa-whatsapp"></i
-              ></a>
-              <a
-                href="https://www.instagram.com/bewise135?igsh=a2x4dnh2cmhzMXFq"
-                target="_blank"
-                ><i class="fab fa-instagram"></i
-              ></a>
+            <div class="about-cta">
+              <a href="#" class="btn outline">
+                <span>Download CV</span>
+                <i class="fas fa-download"></i>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Skills Section -->
     <section id="skills" class="skills">
       <div class="container">
-        <h2 class="section-title">My Skills</h2>
+        <h2 class="section-title">
+          <span class="title-number">02</span>
+          My Expertise
+        </h2>
         <div class="skills-grid">
           <div class="skill-card">
             <div class="skill-icon">
               <i class="fab fa-html5"></i>
             </div>
-            <h3>HTML5</h3>
-            <p>Semantic markup, accessibility, SEO optimization</p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-css3-alt"></i>
+            <h3>Frontend Development</h3>
+            <p>HTML5, CSS3, JavaScript, React, Vue.js, Responsive Design</p>
+            <div class="skill-level">
+              <div class="level-bar">
+                <div class="level-progress" data-level="95"></div>
+              </div>
+              <span class="level-text">95%</span>
             </div>
-            <h3>CSS3</h3>
-            <p>Responsive design, animations, Flexbox, Grid</p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-js"></i>
-            </div>
-            <h3>JavaScript</h3>
-            <p>ES6+, DOM manipulation, API integration</p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">
-              <i class="fab fa-react"></i>
-            </div>
-            <h3>React</h3>
-            <p>Component-based architecture, Hooks, Context API</p>
           </div>
           <div class="skill-card">
             <div class="skill-icon">
               <i class="fab fa-python"></i>
             </div>
-            <h3>Python | Django</h3>
-            <p>Server-side development, Templates rendering</p>
+            <h3>Backend Development</h3>
+            <p>Python, Django, Node.js, Express, REST APIs, Database Design</p>
+            <div class="skill-level">
+              <div class="level-bar">
+                <div class="level-progress" data-level="90"></div>
+              </div>
+              <span class="level-text">90%</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>AI & Machine Learning</h3>
+            <p>TensorFlow, NLP, Computer Vision, Data Analysis, Neural Networks</p>
+            <div class="skill-level">
+              <div class="level-bar">
+                <div class="level-progress" data-level="85"></div>
+              </div>
+              <span class="level-text">85%</span>
+            </div>
           </div>
           <div class="skill-card">
             <div class="skill-icon">
               <i class="fas fa-database"></i>
             </div>
-            <h3>Database</h3>
-            <p>MongoDB, MySQL, Firebase</p>
+            <h3>Database Management</h3>
+            <p>MySQL, MongoDB, PostgreSQL, Firebase, Redis, Data Modeling</p>
+            <div class="skill-level">
+              <div class="level-bar">
+                <div class="level-progress" data-level="88"></div>
+              </div>
+              <span class="level-text">88%</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Projects Section -->
     <section id="projects" class="projects">
       <div class="container">
-        <h2 class="section-title">My Projects</h2>
+        <h2 class="section-title">
+          <span class="title-number">03</span>
+          Featured Projects
+        </h2>
         <div class="projects-grid">
           <div class="project-card">
             <div class="project-image">
-              <img src="https://market-resized.envatousercontent.com/previews/files/347474797/screenshot/00_previews.png?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=5eeba7c7af3484d3ea8a7667ad3d3ede63d4f2a7991b0beb77174a47f79ddbbf" alt="Project 1" />
+              <img src="https://market-resized.envatousercontent.com/previews/files/347474797/screenshot/00_previews.png?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=5eeba7c7af3484d3ea8a7667ad3d3ede63d4f2a7991b0beb77174a47f79ddbbf" alt="E-commerce Website" />
+              <div class="project-overlay">
+                <a href="https://wisdom-webstore.netlify.app" target="_blank" class="project-link">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
             </div>
             <div class="project-info">
-              <h3>E-commerce Website</h3>
+              <div class="project-header">
+                <h3>Modern E-commerce Platform</h3>
+                <span class="project-badge">Full Stack</span>
+              </div>
               <p>
-                A fully responsive online store with shopping cart functionality
-                and payment integration.
+                A fully responsive online store with shopping cart, payment integration, 
+                and admin dashboard.
               </p>
               <div class="project-tech">
                 <span>React</span>
                 <span>Node.js</span>
                 <span>MongoDB</span>
+                <span>Stripe</span>
               </div>
-              <a href="https://wisdom-webstore.netlify.app" class="btn small"
-                >View Project &rarr;</a
-              >
+              <a href="https://wisdom-webstore.netlify.app" target="_blank" class="btn small">
+                <span>Live Demo</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
             </div>
           </div>
+          
           <div class="project-card">
             <div class="project-image">
-              <img src="https://s3-figma-hubfile-images-production.figma.com/hub/file/carousel/img/e36c00bbd73d07fbaf970702af8af41045ee76c3/8ff9cb11b989edfcfa89196aa3e91379ce750325" alt="Project 2" />
+              <img src="https://s3-figma-hubfile-images-production.figma.com/hub/file/carousel/img/e36c00bbd73d07fbaf970702af8af41045ee76c3/8ff9cb11b989edfcfa89196aa3e91379ce750325" alt="Portfolio Template" />
+              <div class="project-overlay">
+                <a href="#" class="project-link">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
             </div>
             <div class="project-info">
-              <h3>Portfolio Template</h3>
+              <div class="project-header">
+                <h3>AI Portfolio Template</h3>
+                <span class="project-badge">Frontend</span>
+              </div>
               <p>
-                A customizable portfolio template for creatives and developers.
+                A customizable portfolio template with AI integration for creatives 
+                and developers.
               </p>
               <div class="project-tech">
-                <span>HTML</span>
-                <span>CSS</span>
+                <span>HTML5</span>
+                <span>CSS3</span>
                 <span>JavaScript</span>
+                <span>AI Chat</span>
               </div>
-              <a href="#" class="btn small">View Project &rightarrow;</a>
+              <a href="#" class="btn small">
+                <span>View Project</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
             </div>
           </div>
+          
           <div class="project-card">
             <div class="project-image">
-              <img src="https://marketplace.canva.com/EAFIjTOHlJ8/2/0/900w/canva-green-modern-grocery-list-32-Jx-aFu9Q.jpg" alt="Project 3" />
+              <img src="https://marketplace.canva.com/EAFIjTOHlJ8/2/0/900w/canva-green-modern-grocery-list-32-Jx-aFu9Q.jpg" alt="Shopping List Generator" />
+              <div class="project-overlay">
+                <a href="https://shopping-gen.netlify.app/" target="_blank" class="project-link">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
             </div>
             <div class="project-info">
-              <h3>Shopping list Generator</h3>
+              <div class="project-header">
+                <h3>Shopping List Generator</h3>
+                <span class="project-badge">AI Tool</span>
+              </div>
               <p>
-                A program that allows users to automatically generate shopping
-                list with just a mobile phone.
+                An intelligent application that automatically generates shopping lists 
+                based on user preferences and recipes.
               </p>
               <div class="project-tech">
-                <span>HTML</span>
-                <span>CSS</span>
                 <span>JavaScript</span>
+                <span>AI/ML</span>
+                <span>API</span>
+                <span>Local Storage</span>
               </div>
-              <a href="https://shopping-gen.netlify.app/" class="btn small"
-                >View Project &rightarrow;</a
-              >
+              <a href="https://shopping-gen.netlify.app/" target="_blank" class="btn small">
+                <span>Try Now</span>
+                <i class="fas fa-arrow-right"></i>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact" class="contact">
       <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
+        <h2 class="section-title">
+          <span class="title-number">04</span>
+          Get In Touch
+        </h2>
         <div class="contact-content">
           <div class="contact-info">
-            <h3>Contact Information</h3>
+            <h3>Let's Build Something Amazing</h3>
             <p>
-              Feel free to reach out to me for project inquiries or just to say
-              hello!
+              Have a project in mind? I'm ready to bring your ideas to life. 
+              Get in touch and let's create something extraordinary together.
             </p>
-
-            <div class="info-item">
-              <i class="fas fa-envelope"></i>
-              <div>
-                <h4>Email</h4>
-                <p>wisdombesong123@gmail.com</p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                  <h4>Email Me</h4>
+                  <p>wisdombesong123@gmail.com</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div>
+                  <h4>Call Me</h4>
+                  <p>+237 671657357</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <h4>Location</h4>
+                  <p>Cameroon</p>
+                </div>
               </div>
             </div>
-
-            <div class="info-item">
-              <i class="fas fa-phone"></i>
-              <div>
-                <h4>Phone</h4>
-                <p>+237 671657357</p>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <div>
-                <h4>Location</h4>
-                <p>Cameroon</p>
+            <div class="social-connect">
+              <h4>Connect With Me</h4>
+              <div class="social-links">
+                <a href="https://github.com/Wisdom614" target="_blank" class="social-link">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/feed/" target="_blank" class="social-link">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.link/ld47dz" target="_blank" class="social-link">
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/bewise135" target="_blank" class="social-link">
+                  <i class="fab fa-instagram"></i>
+                </a>
               </div>
             </div>
           </div>
-
-          <form
-            action="https://formspree.io/f/mkgrkovg"
-            method="POST"
-            class="contact-form"
-            id="contactForm"
-          >
-            <div class="form-group">
-              <label for="name">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Write Your Name"
-                required
-              />
+          <form action="https://formspree.io/f/mkgrkovg" method="POST" class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="_replyto" placeholder="your@email.com" required />
+              </div>
             </div>
-
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="_replyto"
-                placeholder="Enter Your Email"
-                required
-              />
-            </div>
-
             <div class="form-group">
               <label for="subject">Subject</label>
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                placeholder="Project Inquiry"
-              />
+              <input type="text" id="subject" name="subject" placeholder="Project Inquiry" />
             </div>
-
             <div class="form-group">
-              <label for="message">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="Your message here..."
-                rows="5"
-                required
-              ></textarea>
+              <label for="message">Your Message</label>
+              <textarea id="message" name="message" placeholder="Tell me about your project..." rows="5" required></textarea>
             </div>
-
-            <!-- hCaptcha -->
-            <div class="h-captcha" data-sitekey="your-hcaptcha-sitekey"></div>
-
-            <!-- Hidden Fields -->
-            <input
-              type="hidden"
-              name="_next"
-              value="https://yourportfolio.com/thanks.html"
-            />
-            <input type="text" name="_gotcha" style="display: none" />
-
-            <button type="submit" class="btn primary" id="submitBtn">
+            <button type="submit" class="btn primary submit-btn">
               <span class="btn-text">Send Message</span>
-              <span class="loading-icon"
-                ><i class="fas fa-spinner fa-spin"></i
-              ></span>
+              <span class="loading-icon">
+                <i class="fas fa-spinner fa-spin"></i>
+              </span>
             </button>
-
-            <div class="status-message"></div>
+            <div class="form-status"></div>
           </form>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
     <footer>
       <div class="container">
         <div class="footer-content">
-          <div class="footer-about">
-            <h3>Besong Wisdom</h3>
-            <p>
-              Web Developer & Designer creating digital experiences that matter.
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <span class="logo-icon">BW</span>
+              <span class="logo-text">Besong<span class="gold">Wisdom</span></span>
+            </div>
+            <p class="footer-tagline">
+              Crafting digital experiences that matter with innovation and precision.
             </p>
+            <div class="footer-social">
+              <a href="https://github.com/Wisdom614" target="_blank">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/feed/" target="_blank">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="https://wa.link/ld47dz" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="https://www.instagram.com/bewise135" target="_blank">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
           </div>
           <div class="footer-links">
             <h3>Quick Links</h3>
@@ -383,33 +506,33 @@
           </div>
           <div class="footer-contact">
             <h3>Contact Info</h3>
-            <p><i class="fas fa-envelope"></i> wisdombesong123@gmail.com</p>
-            <p><i class="fas fa-phone"></i> (+237) 671657357</p>
+            <div class="contact-info-item">
+              <i class="fas fa-envelope"></i>
+              <span>wisdombesong123@gmail.com</span>
+            </div>
+            <div class="contact-info-item">
+              <i class="fas fa-phone"></i>
+              <span>(+237) 671657357</span>
+            </div>
+            <div class="contact-info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Cameroon</span>
+            </div>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>
-            &copy; <span id="year"></span> Besong Wisdom. All rights reserved.
-          </p>
-          <div class="social-links">
-            <a href="https://github.com/Wisdom614" target="_blank"
-              ><i class="fab fa-github"></i
-            ></a>
-            <a href="https://www.linkedin.com/feed/" target="_blank"
-              ><i class="fab fa-linkedin"></i
-            ></a>
-            <a href="https://www.facebook.com/tambe.mbe.73" target="_blank"
-              ><i class="fab fa-facebook"></i
-            ></a>
-            <a
-              href="https://www.instagram.com/bewise135?igsh=a2x4dnh2cmhzMXFq"
-              target="_blank"
-              ><i class="fab fa-instagram"></i
-            ></a>
+          <p>&copy; <span id="year"></span> Besong Wisdom. All rights reserved.</p>
+          <div class="footer-credits">
+            <span>Designed & Developed with <i class="fas fa-heart"></i> by Besong Wisdom</span>
           </div>
         </div>
       </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#home" class="back-to-top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
 
     <!-- AI Chat Widget -->
     <div id="chat-widget" class="chat-widget">
@@ -419,7 +542,7 @@
           <span>Back to Portfolio</span>
         </button>
         <div class="chat-title">
-          <h3>Chat with Wisdom AI</h3>
+          <h3><i class="fas fa-robot"></i> Wisdom AI Assistant</h3>
           <span class="online-indicator">• Online</span>
         </div>
         <button id="close-chat" class="close-btn">&times;</button>
@@ -430,33 +553,23 @@
             <i class="fas fa-robot"></i>
           </div>
           <div class="message-content">
-            <p>Hi there! I'm Wisdom AI. Ask me anything about my portfolio, projects, or skills!</p>
+            <p>Hello! I'm Wisdom AI. Ask me anything about my portfolio, projects, or skills!</p>
             <span class="message-time">Just now</span>
           </div>
         </div>
       </div>
       <div class="chat-input-container">
         <div class="chat-input">
-          <input
-            type="text"
-            id="user-input"
-            placeholder="Type your message..."
-            maxlength="500"
-          />
+          <input type="text" id="user-input" placeholder="Type your message..." maxlength="500" />
           <button id="send-btn" class="send-btn">
             <i class="fas fa-paper-plane"></i>
           </button>
         </div>
         <div class="chat-suggestions">
-          <button class="suggestion-btn" data-question="Tell me about your skills">
-            Skills
-          </button>
-          <button class="suggestion-btn" data-question="Show me your projects">
-            Projects
-          </button>
-          <button class="suggestion-btn" data-question="How can I contact you?">
-            Contact
-          </button>
+          <button class="suggestion-btn" data-question="Tell me about your skills">Skills</button>
+          <button class="suggestion-btn" data-question="Show me your projects">Projects</button>
+          <button class="suggestion-btn" data-question="How can I contact you?">Contact</button>
+          <button class="suggestion-btn" data-question="Tell me about your experience">Experience</button>
         </div>
       </div>
     </div>
@@ -470,10 +583,3 @@
     <script src="script.js"></script>
   </body>
 </html>
-
-
-
-
-
-
-
