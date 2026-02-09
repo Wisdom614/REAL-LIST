@@ -550,3 +550,293 @@ window.addEventListener('resize', function() {
         }
     }, 250);
 });
+
+// Animation helper functions
+class PortfolioAnimations {
+  constructor() {
+    this.initializeAnimations();
+    this.initializeScrollAnimations();
+    this.initializeHoverEffects();
+    this.initializeNameTyping();
+    this.initializeChatAnimations();
+  }
+
+  initializeAnimations() {
+    // Hero section animations
+    const heroContent = document.querySelector('.hero-content');
+    const heroImage = document.querySelector('.hero-image');
+    
+    if (heroContent) {
+      heroContent.style.animation = 'fadeInLeft 1s ease-out forwards';
+    }
+    
+    if (heroImage) {
+      heroImage.style.animation = 'fadeInRight 1s ease-out 0.3s forwards';
+      heroImage.style.opacity = '0';
+    }
+
+    // Animate skill cards on page load
+    setTimeout(() => {
+      this.animateSkillCards();
+    }, 800);
+  }
+
+  initializeScrollAnimations() {
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('skill-card')) {
+            entry.target.style.animation = 'bounceIn 0.6s ease-out forwards';
+            entry.target.style.opacity = '1';
+          } else if (entry.target.classList.contains('project-card')) {
+            entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+            entry.target.style.opacity = '1';
+          } else if (entry.target.id === 'about') {
+            const aboutImage = entry.target.querySelector('.about-image');
+            const aboutText = entry.target.querySelector('.about-text');
+            if (aboutImage) aboutImage.style.animation = 'fadeInLeft 0.8s ease-out forwards';
+            if (aboutText) aboutText.style.animation = 'fadeInRight 0.8s ease-out 0.2s forwards';
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements
+    document.querySelectorAll('.skill-card, .project-card, #about').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  initializeHoverEffects() {
+    // Skill card hover animations
+    const skillCards = document.querySelectorAll('.skill-card');
+    skillCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px) scale(1.05)';
+        card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+        card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+        
+        const icon = card.querySelector('.skill-icon i');
+        if (icon) {
+          icon.style.animation = 'pulse 1s infinite';
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+        card.style.boxShadow = 'none';
+        
+        const icon = card.querySelector('.skill-icon i');
+        if (icon) {
+          icon.style.animation = 'none';
+        }
+      });
+    });
+
+    // Project card hover animations
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const image = card.querySelector('.project-image img');
+        if (image) {
+          image.style.transform = 'scale(1.1) rotate(2deg)';
+          image.style.transition = 'transform 0.5s ease';
+        }
+        
+        const btn = card.querySelector('.btn');
+        if (btn) {
+          btn.style.animation = 'glow 1.5s infinite';
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        const image = card.querySelector('.project-image img');
+        if (image) {
+          image.style.transform = 'scale(1) rotate(0)';
+        }
+        
+        const btn = card.querySelector('.btn');
+        if (btn) {
+          btn.style.animation = 'none';
+        }
+      });
+    });
+
+    // Button hover effects
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+      button.addEventListener('mouseenter', () => {
+        button.style.transform = 'translateY(-3px)';
+        button.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
+      });
+
+      button.addEventListener('mouseleave', () => {
+        button.style.transform = 'translateY(0)';
+        button.style.boxShadow = 'none';
+      });
+
+      button.addEventListener('click', (e) => {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.cssText = `
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.7);
+          transform: scale(0);
+          animation: ripple-animation 0.6s linear;
+          width: ${size}px;
+          height: ${size}px;
+          top: ${y}px;
+          left: ${x}px;
+          pointer-events: none;
+        `;
+
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+  }
+
+  initializeNameTyping() {
+    const nameElement = document.getElementById('name');
+    if (!nameElement) return;
+
+    const name = "Besong Wisdom";
+    let i = 0;
+    
+    function typeWriter() {
+      if (i < name.length) {
+        nameElement.textContent += name.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      } else {
+        // Add blinking cursor after typing
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        cursor.style.cssText = `
+          border-right: 2px solid white;
+          animation: blink 1s infinite;
+          margin-left: 2px;
+        `;
+        nameElement.appendChild(cursor);
+      }
+    }
+    
+    // Start typing after hero section loads
+    setTimeout(typeWriter, 500);
+  }
+
+  animateSkillCards() {
+    const skillCards = document.querySelectorAll('.skill-card');
+    skillCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, index * 100);
+    });
+  }
+
+  initializeChatAnimations() {
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatWidget = document.getElementById('chat-widget');
+    const closeChat = document.getElementById('close-chat');
+    const sendBtn = document.getElementById('send-btn');
+
+    if (chatToggle && chatWidget) {
+      chatToggle.addEventListener('click', () => {
+        chatWidget.style.animation = 'slideUp 0.3s ease-out forwards';
+        chatWidget.style.display = 'block';
+        chatToggle.style.display = 'none';
+      });
+
+      closeChat.addEventListener('click', () => {
+        chatWidget.style.animation = 'slideDown 0.3s ease-out forwards';
+        setTimeout(() => {
+          chatWidget.style.display = 'none';
+          chatToggle.style.display = 'flex';
+        }, 300);
+      });
+
+      // Animate send button
+      if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+          sendBtn.style.animation = 'pulse 0.3s ease';
+          setTimeout(() => {
+            sendBtn.style.animation = '';
+          }, 300);
+        });
+      }
+
+      // Animate suggestion buttons
+      const suggestionBtns = document.querySelectorAll('.suggestion-btn');
+      suggestionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.style.animation = 'shake 0.5s ease';
+          setTimeout(() => {
+            btn.style.animation = '';
+          }, 500);
+        });
+      });
+    }
+  }
+}
+
+// Initialize animations when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Add ripple animation CSS
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple-animation {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    /* Initial states for animations */
+    .hero-content { opacity: 0; }
+    .hero-image { opacity: 0; }
+    .about-image { opacity: 0; }
+    .about-text { opacity: 0; }
+    .skill-card { opacity: 0; }
+    .project-card { opacity: 0; }
+    
+    /* Smooth transitions */
+    .skill-card, .project-card, .btn, .chat-widget {
+      transition: all 0.3s ease;
+    }
+    
+    /* Chat widget initial state */
+    .chat-widget {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    
+    /* Floating animation for chat toggle */
+    .chat-toggle {
+      animation: float 3s ease-in-out infinite;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Start animations
+  new PortfolioAnimations();
+
+  // Add current year to footer
+  document.getElementById('year').textContent = new Date().getFullYear();
+});
